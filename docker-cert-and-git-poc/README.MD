@@ -2,7 +2,7 @@
 
 ### how to run it
 
-first, generate CA files with openssl, generate a server cert for apache and a client cert for your browser with the script generatekeysandcerts.sh. Now, put your git project folder (.git) into the folder git, so it gets copied.
+first, generate CA files with openssl, generate a server cert for apache and a client cert for your browser with the script generatekeysandcerts.sh. Now, create a folder "git" and put your git project folder (.git) into the folder git, so it gets copied by the docker build command.
 
 Then you can build the docker image and run it:
 
