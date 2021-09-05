@@ -1,0 +1,42 @@
+body{
+	background: url("../img/juice.jpg") no-repeat center center fixed;
+	background-size: cover;	
+}
+main{
+	font-family: 'Neucha', cursive;
+	font-weight: bold;
+	margin: 0 auto;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-ms-transform: translate(-50%, -60%);
+	transform: translate(-50%, -60%);
+	text-align: center;
+	background: rgba(255,255,255,0.9);
+	box-shadow: 0 0 20px 4px black;
+	padding: 0 60px 40px 60px;
+}
+main h1{
+	font-family: 'Yellowtail', cursive;
+	text-decoration: underline;
+	font-size: 5em;
+	margin-bottom: 0px;
+}
+main h2{
+	font-size: 2em;
+}
+main p{
+	font-size: 1.5em;
+}
+
+@media (max-width: 900px){
+	main{
+		top: 40px;
+		bottom: 40px;
+		right: 20px;
+		left: 20px;
+		transform: none;
+		-ms-transform: none;
+		border-radius: 3px;	
+	}
+}
