@@ -3,3 +3,7 @@
 *.csr
 *.key
 *.p12
+**/index.txt*
+**/rand
+**/serial.txt
+*.pem
