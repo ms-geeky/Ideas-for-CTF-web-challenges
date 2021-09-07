@@ -7,3 +7,4 @@
 **/rand
 **/serial.txt
 *.pem
+**/venv
