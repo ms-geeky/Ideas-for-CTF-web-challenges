@@ -9,3 +9,4 @@
 *.pem
 **/venv
 **/.idea
+**/__pycache__

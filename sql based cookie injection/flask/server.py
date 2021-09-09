@@ -19,80 +19,40 @@ encodings_set = {"base64","rot13", "hex", "binary"}
 
 
 
-class MagicForm(FlaskForm):
+class DBQueryForm(FlaskForm):
     # deactivate csrf
     class Meta:
         csrf = False
-    filename = StringField('Enter filename')
+    query = StringField('Enter tablename')
     submit = SubmitField('Submit')
     
-def detect_os() -> str:
-    return platform.system()
 
-def binary_encode(filecontent: str) -> str:
-    result = ' '.join(format(ord(x), 'b') for x in filecontent)
-    return result
 
-def hex_encode(filecontent: str) -> str:    
-    result = filecontent.encode("utf-8").hex()
-    return result
+def query_db(query: str) -> str:
 
-def rot13_encode(filecontent: str) -> str:    
-    result = codecs.encode(filecontent, "rot-13")
-    return result
+    db = _mysql.connect(host="localhost", user="flask", passwd="v5UmnxifRv", db="flask")
+    query = db.query("""SELECT * FROM {}""".format(query))
+    query_result = db.store_result()
+    result = query_result.fetch_row()
 
-def base64_encode(filecontent: str) -> str:
-    filecontent_bytes = filecontent.encode('ascii')
-    base64_bytes = base64.b64encode(filecontent_bytes)
-    result = base64_bytes.decode('ascii')
-    return result
-
-def encode_randomly(filecontent: str) -> str:
-    func = random.choice(tuple(encodings_set))
-    result = ""
-    if func == "base64":
-        result = base64_encode(filecontent)
-    if func == "rot13":
-        result = rot13_encode(filecontent)
-    if func == "hex":
-        result = hex_encode(filecontent)
-    if func == "binary":
-        result = binary_encode(filecontent)
-    return result
-
-def get_filecontent(filename: str) -> str:
-    os = detect_os()
-    process_name = ""
-    if os == "Linux":
-        process_name = "cat"
-        result = subprocess.check_output([process_name, filename])
-    if os == "Windows":
-        process_name = "type"
-        result = subprocess.check_output([process_name, filename], shell=True)    
-    utf8decoded_result = result.decode('UTF-8') 
-    randomly_encoded = encode_randomly(utf8decoded_result)
-    return randomly_encoded
+    return str(result)
     
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    filecontent = None
-    form = MagicForm()
+    result = None
+    form = DBQueryForm()
     # only do sth when there is a filename given!
     if form.validate_on_submit():
-        if form.filename.data != "":
-            filecontent = get_filecontent(form.filename.data)
+        if form.query.data != "":
+            result = query_db(form.query.data)
         #form.filename.data = ''        
-    return render_template('index.html', form=form, filecontent=filecontent)
+    return render_template('index.html', form=form, result=result)
 
 if __name__ == "__main__":
     app.run()
 
-    #db = _mysql.connect(host="localhost", user="flask", passwd="v5UmnxifRv", db="flask")
-    #query = db.query("""SELECT * FROM flag""")
-    #query_result = db.store_result()
-    #print(query_result.fetch_row())
 
 # windows: set FLASK_APP=magiccat.py
 # linux: export FLASK_APP=magiccat.py
