@@ -2,11 +2,6 @@ from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-import platform
-import subprocess
-import random
-import base64
-import codecs
 from MySQLdb import _mysql
 
 app = Flask(__name__)
@@ -15,9 +10,8 @@ app.config['SECRET_KEY'] = 'EWuuMqhcZU2j85BQ'
 
 bootstrap = Bootstrap(app)
 
-encodings_set = {"base64","rot13", "hex", "binary"}
-
-
+# TODO make connection more robust so it reconnects on disconnect?
+db = _mysql.connect(host="localhost", user="flask", passwd="v5UmnxifRv", db="flask")
 
 class DBQueryForm(FlaskForm):
     # deactivate csrf
@@ -30,10 +24,12 @@ class DBQueryForm(FlaskForm):
 
 def query_db(query: str) -> str:
 
-    db = _mysql.connect(host="localhost", user="flask", passwd="v5UmnxifRv", db="flask")
-    query = db.query("""SELECT * FROM {}""".format(query))
-    query_result = db.store_result()
-    result = query_result.fetch_row()
+    try:
+        query = db.query("""SELECT * FROM {}""".format(query))
+        query_result = db.store_result()
+        result = query_result.fetch_row()
+    except Exception:
+        result = "Stop it script kiddy"
 
     return str(result)
     
@@ -54,8 +50,8 @@ if __name__ == "__main__":
     app.run()
 
 
-# windows: set FLASK_APP=magiccat.py
-# linux: export FLASK_APP=magiccat.py
+# windows: set FLASK_APP=server.py
+# linux: export FLASK_APP=server.py
 # flask run -p 6666
-# only available on unix: gunicorn --bind 127.0.0.1:6666 magiccat:app
-# curl -X POST -d "filename=file.txt&submit=Submit" http://localhost:6666
+# only available on unix: gunicorn --bind 127.0.0.1:6666 server:app
+# curl -X POST -d "tablename=flag&submit=Submit" http://localhost:6666
