@@ -11,13 +11,15 @@ app.config['SECRET_KEY'] = 'EWuuMqhcZU2j85BQ'
 bootstrap = Bootstrap(app)
 
 # TODO make connection more robust so it reconnects on disconnect?
-db = _mysql.connect(host="localhost", user="flask", passwd="v5UmnxifRv", db="flask")
+db = _mysql.connect(host="localhost", port= 3306, user="flask", passwd="v5UmnxifRv", db="flask")
+# db = _mysql.connect(host="172.28.222.152", port= 3000, user="flask", passwd="v5UmnxifRv", db="flask")
+
 
 class DBQueryForm(FlaskForm):
     # deactivate csrf
     class Meta:
         csrf = False
-    query = StringField('Enter tablename')
+    query = StringField('Search for our available ice cream flavours :)')
     submit = SubmitField('Submit')
     
 
@@ -25,7 +27,7 @@ class DBQueryForm(FlaskForm):
 def query_db(query: str) -> str:
 
     try:
-        query = db.query("""SELECT * FROM {}""".format(query))
+        query = db.query("""SELECT flavors FROM ice_flavors where lower(flavors) like '%{}%'""".format(query))
         query_result = db.store_result()
         result = query_result.fetch_row()
     except Exception:
