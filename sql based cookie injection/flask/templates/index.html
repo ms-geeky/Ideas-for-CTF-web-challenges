@@ -7,9 +7,13 @@
 <div>
     <span>
         <pre class="page-header">
-        {% if result %}{{ result }}
-        {% else %}
-        {% endif %}
+                {% if result_list %}
+                    {% if result_list|length > 0 %}
+                        {% for element in result_list %}
+                            <p>{{ element }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
         </pre>
     </span>
 </div>

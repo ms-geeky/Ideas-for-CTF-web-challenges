@@ -4,7 +4,7 @@ INSERT INTO flag VALUE("BIT{yayy_y0u_g0t_appl3_ic3}");
 
 -- create all other tables
 CREATE TABLE ice_flavors (flavors VARCHAR(32),quantity INT, price INT);
-CREATE TABLE products (productId INT,name VARCHAR(32),discount_percent INT, price INT,image TEXT);
+CREATE TABLE products (productId INT,productname VARCHAR(32),discount_percent INT, price INT,imagefile TEXT);
 CREATE TABLE cakes_and_desserts (products VARCHAR(32),quantity INT, price INT);
 CREATE TABLE soda (soda_flavor VARCHAR(32),quantity INT, price INT);
 
@@ -25,7 +25,7 @@ INSERT INTO ice_flavors VALUE("peanut butter",50,75);
 INSERT INTO ice_flavors VALUE("blueberry",100,88);
 INSERT INTO ice_flavors VALUE("salted caramel",50,69);
 
-INSERT INTO products VALUE(1,"milkshake",20,100,"milkshake.jpg")
+INSERT INTO products VALUE(1,"milkshake",20,100,"milkshake.jpg");
 INSERT INTO products VALUE(2,"ice cream cone",10,60,"icecream_cone.jpg");
 INSERT INTO products VALUE(3,"popsicle",13,45,"popsicle.jpg");
 INSERT INTO products VALUE(4,"shaved ice",15,50,"shaved_ice.jpg");

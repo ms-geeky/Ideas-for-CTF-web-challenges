@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-from MySQLdb import _mysql
+import MySQLdb
 
 app = Flask(__name__)
 
@@ -16,7 +16,7 @@ bootstrap = Bootstrap(app)
 # TODO run service as restricted user?
 # TODO log sth of waitress service to file?
 
-db = _mysql.connect(host="localhost", port= 3306, user="flask", passwd="v5UmnxifRv", db="flask")
+db = MySQLdb.connect(host="localhost", port= 3306, user="flask", passwd="v5UmnxifRv", db="flask")
 # db = _mysql.connect(host="172.28.222.152", port= 3000, user="flask", passwd="v5UmnxifRv", db="flask")
 
 
@@ -24,34 +24,39 @@ class DBQueryForm(FlaskForm):
     # deactivate csrf
     class Meta:
         csrf = False
-    query = StringField('Search for our available ice cream flavours :)')
+    query = StringField('Search for our available yummy products :)')
     submit = SubmitField('Submit')
     
 
 
-def query_db(query: str) -> str:
-
+def query_db(query: str) -> list:
+    # possible injection to display all products:
+    #            %' or 'a'='a'; --
     try:
-        query = db.query("""SELECT flavors FROM ice_flavors where lower(flavors) like '%{}%'""".format(query))
-        query_result = db.store_result()
-        result = query_result.fetch_row()
+        query = """SELECT imagefile FROM products where lower(productname) like '%{}%'""".format(query)
+        cursor = db.cursor()
+        cursor.execute(query)
+        result = cursor.fetchall()
+        result_list = list()
+        for element in result:
+            result_list.append(element[0])
     except Exception:
-        result = "Stop it script kiddy"
+        result_list = ["Stop it script kiddy"]
 
-    return str(result)
+    return result_list
     
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    result = None
+    result_list = None
     form = DBQueryForm()
     # only do sth when there is a filename given!
     if form.validate_on_submit():
         if form.query.data != "":
-            result = query_db(form.query.data)
+            result_list = query_db(form.query.data)
         #form.filename.data = ''        
-    return render_template('index.html', form=form, result=result)
+    return render_template('index.html', form=form, result_list=result_list)
 
 if __name__ == "__main__":
     app.run()
