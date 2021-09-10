@@ -11,6 +11,11 @@ app.config['SECRET_KEY'] = 'EWuuMqhcZU2j85BQ'
 bootstrap = Bootstrap(app)
 
 # TODO make connection more robust so it reconnects on disconnect?
+# TODO test app extensively with automated scanners like sqlmap?
+# TODO test how robust app is installed as service
+# TODO run service as restricted user?
+# TODO log sth of waitress service to file?
+
 db = _mysql.connect(host="localhost", port= 3306, user="flask", passwd="v5UmnxifRv", db="flask")
 # db = _mysql.connect(host="172.28.222.152", port= 3000, user="flask", passwd="v5UmnxifRv", db="flask")
 
