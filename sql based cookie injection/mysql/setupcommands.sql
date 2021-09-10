@@ -1,10 +1,10 @@
 -- create "flag" table
-CREATE TABLE (NT3PDPbcTm2k969w VARCHAR(32) NOT NULL);
-INSERT INTO NT3PDPbcTm2k969w VALUE("BIT{yayy_y0u_g0t_appl3_ic3}");
+CREATE TABLE flag (flag VARCHAR(32) NOT NULL);
+INSERT INTO flag VALUE("BIT{yayy_y0u_g0t_appl3_ic3}");
 
 -- create all other tables
 CREATE TABLE ice_flavors (flavors VARCHAR(32),quantity INT, price INT);
-CREATE TABLE products (products VARCHAR(32),discount_percent INT, price INT);
+CREATE TABLE products (productId INT,name VARCHAR(32),discount_percent INT, price INT,image TEXT);
 CREATE TABLE cakes_and_desserts (products VARCHAR(32),quantity INT, price INT);
 CREATE TABLE soda (soda_flavor VARCHAR(32),quantity INT, price INT);
 
@@ -25,14 +25,14 @@ INSERT INTO ice_flavors VALUE("peanut butter",50,75);
 INSERT INTO ice_flavors VALUE("blueberry",100,88);
 INSERT INTO ice_flavors VALUE("salted caramel",50,69);
 
-INSERT INTO products VALUE("milkshake",20,100);
-INSERT INTO products VALUE("ice cream cone",10,60);
-INSERT INTO products VALUE("popsicle",13,45);
-INSERT INTO products VALUE("shaved ice",15,50);
-INSERT INTO products VALUE("cookies",15,100);
-INSERT INTO products VALUE("sundae",11,110);
-INSERT INTO products VALUE("ice cream sandwich",19,35);
-INSERT INTO products VALUE("frozen yoghurt",13,60);
+INSERT INTO products VALUE(1,"milkshake",20,100,"milkshake.jpg")
+INSERT INTO products VALUE(2,"ice cream cone",10,60,"icecream_cone.jpg");
+INSERT INTO products VALUE(3,"popsicle",13,45,"popsicle.jpg");
+INSERT INTO products VALUE(4,"shaved ice",15,50,"shaved_ice.jpg");
+INSERT INTO products VALUE(5,"cookies",15,100,"cookies.jpg");
+INSERT INTO products VALUE(6,"sundae",11,110,"sundae.jpg");
+INSERT INTO products VALUE(7,"ice cream sandwich",19,35,"ice_cream_sandwich.jpg");
+INSERT INTO products VALUE(8,"frozen yoghurt",13,60,"yoghurt.png");
 
 INSERT INTO cakes_and_desserts VALUE("apple cake",500,300);
 INSERT INTO cakes_and_desserts VALUE("black forest cake",500,450);
