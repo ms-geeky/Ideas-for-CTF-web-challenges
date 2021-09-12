@@ -22,8 +22,8 @@ bootstrap = Bootstrap(app)
 # TODO run service as restricted user?
 # TODO log sth of waitress service to file?
 
-db = MySQLdb.connect(host="localhost", port= 3306, user="flask", passwd="v5UmnxifRv", db="flask")
-# db = _mysql.connect(host="172.28.222.152", port= 3000, user="flask", passwd="v5UmnxifRv", db="flask")
+#db = MySQLdb.connect(host="localhost", port= 3306, user="flask", passwd="v5UmnxifRv", db="flask")
+db = MySQLdb.connect(host="172.22.180.13", port= 3000, user="flask", passwd="v5UmnxifRv", db="flask")
 
 
 class DBQueryForm(FlaskForm):
