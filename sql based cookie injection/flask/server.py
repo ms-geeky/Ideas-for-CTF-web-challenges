@@ -22,8 +22,8 @@ bootstrap = Bootstrap(app)
 # TODO run service as restricted user?
 # TODO log sth of waitress service to file?
 
-#db = MySQLdb.connect(host="localhost", port= 3306, user="flask", passwd="v5UmnxifRv", db="flask")
-db = MySQLdb.connect(host="172.22.180.13", port= 3000, user="flask", passwd="v5UmnxifRv", db="flask")
+db = MySQLdb.connect(host="localhost", port= 3306, user="flask", passwd="v5UmnxifRv", db="flask")
+#db = MySQLdb.connect(host="172.22.180.13", port= 3000, user="flask", passwd="v5UmnxifRv", db="flask")
 
 
 class DBQueryForm(FlaskForm):
@@ -52,7 +52,6 @@ def query_db(query: str) -> list:
     query = """SELECT imagefile FROM products where lower(productname) like '%{}%'""".format(query)
     cursor = db.cursor()
     try:
-        #print(query)
         cursor.execute(query)
         result = cursor.fetchall()
         result_list = list()
@@ -79,19 +78,17 @@ def display_image(filename: str):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result_list = None
-    image_not_found = None
     call_surprise = False
     random_number = 1
     form = DBQueryForm()
     # only do sth when there is a filename given!
     if form.validate_on_submit():
         if form.query.data != "":
-            if re.match(r"^.*THISISDEACTIVATEDFORNOW.*$", form.query.data):
+            if re.match(r"^.*NOTACTIVATEDRN.*$(?i)", form.query.data):
                 call_surprise = True
                 random_number = random.randint(1,10)
             else:
                 result_list = query_db(form.query.data)
-                # form.filename.data = ''
     return render_template('index.html', form=form, result_list=result_list, call_surprise=call_surprise, random_number=random_number)
 
 
@@ -108,6 +105,6 @@ if __name__ == "__main__":
 
 # windows: set FLASK_APP=server.py
 # linux: export FLASK_APP=server.py
-# flask run -p 6666
-# only available on unix: gunicorn --bind 127.0.0.1:6666 server:app
-# curl -X POST -d "tablename=flag&submit=Submit" http://localhost:6666
+# flask run -p 8080
+# only available on unix: gunicorn --bind 127.0.0.1:8080 server:app
+# curl -X POST -d "tablename=flag&submit=Submit" http://localhost:8080

@@ -32,7 +32,7 @@ INSERT INTO products VALUE(4,"shaved ice",15,50,"shaved_ice.jpg");
 INSERT INTO products VALUE(5,"cookies",15,100,"cookies.jpg");
 INSERT INTO products VALUE(6,"sundae",11,110,"sundae.jpg");
 INSERT INTO products VALUE(7,"ice cream sandwich",19,35,"ice_cream_sandwich.jpg");
-INSERT INTO products VALUE(8,"frozen yoghurt",13,60,"yoghurt.png");
+INSERT INTO products VALUE(8,"frozen yoghurt",13,60,"yoghurt.jpg");
 
 INSERT INTO cakes_and_desserts VALUE("apple cake",500,300);
 INSERT INTO cakes_and_desserts VALUE("black forest cake",500,450);
