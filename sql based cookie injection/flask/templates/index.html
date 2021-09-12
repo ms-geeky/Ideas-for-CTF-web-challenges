@@ -4,17 +4,22 @@
 
 {% block page_content %}
 {{ wtf.quick_form(form) }}
-<div>
-    <span>
-        <pre class="page-header">
-                {% if result_list %}
-                    {% if result_list|length > 0 %}
-                        {% for element in result_list %}
-                            <p>{{ element }}</p>
-                        {% endfor %}
-                    {% endif %}
-                {% endif %}
-        </pre>
-    </span>
-</div>
+    {% if call_surprise == false %}
+        {% if result_list %}
+            {% if result_list|length > 0 %}
+                {% for filename in result_list %}
+                    <br>
+                    <div>
+                        <img src="{{ url_for('display_image', filename=filename|quote_plus) }}">
+                    </div>
+                    <br>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    {% if call_surprise == true %}
+        <br>
+        <p><a href="{{ url_for('surprise', random_number=random_number) }}">Secret</a></p>
+    {% endif %}
 {% endblock %}
+

@@ -1,12 +1,16 @@
 import sys
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 import MySQLdb
+from urllib.parse import quote_plus
+import random
+import re
 
 app = Flask(__name__)
+app.jinja_env.filters['quote_plus'] = lambda u: quote_plus(u)
 
 app.config['SECRET_KEY'] = 'EWuuMqhcZU2j85BQ'
 
@@ -38,11 +42,11 @@ def query_db(query: str) -> list:
     # possible injection to display all products:
     #            %' or 'a'='a'; #
     # how to get database names:
-    #            %' or 'a'='a union select group_concat(schema_name) from information_schema.schemata; #
+    #            %' or 'a'='a' union select group_concat(schema_name) from information_schema.schemata; #
     # how to get table names:
-    #            %' or 'a'='a' union select group_concat(table_name) from information_schema.tables  where table_schema='flask'; #
+    #            %' or 'a'='a' union select group_concat(table_name) from information_schema.tables where table_schema='flask'; #
     # get column names of table 'flag':
-    #            %' or 'a'='a' union select group_concat(column_name) from information_schema.columns  where table_name='flag'; #
+    #            %' or 'a'='a' union select group_concat(column_name) from information_schema.columns where table_name='flag'; #
     # get flag itself
     #            %' or 'a'='a' union select group_concat(flag) from flask.flag; #
     query = """SELECT imagefile FROM products where lower(productname) like '%{}%'""".format(query)
@@ -62,19 +66,41 @@ def query_db(query: str) -> list:
         cursor.close()
 
     return result_list
-    
 
+@app.route('/surprise/<random_number>')
+def surprise(random_number: int):
+    # important: change accordingly depending on the number of pages we have!
+    return redirect(url_for('static', filename='{}.html'.format(random_number)), code=301)
+
+@app.route('/display/<filename>')
+def display_image(filename: str):
+    return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result_list = None
+    image_not_found = None
+    call_surprise = False
+    random_number = 1
     form = DBQueryForm()
     # only do sth when there is a filename given!
     if form.validate_on_submit():
         if form.query.data != "":
-            result_list = query_db(form.query.data)
-        #form.filename.data = ''        
-    return render_template('index.html', form=form, result_list=result_list)
+            if re.match(r"^.*THISISDEACTIVATEDFORNOW.*$", form.query.data):
+                call_surprise = True
+                random_number = random.randint(1,10)
+            else:
+                result_list = query_db(form.query.data)
+                # form.filename.data = ''
+    return render_template('index.html', form=form, result_list=result_list, call_surprise=call_surprise, random_number=random_number)
+
+
+
+# if we want to make the challenge a little bit more easy, we can display a custom error message for the image not found:
+#@app.errorhandler(404)
+#def page_not_found(e):
+#    # note that we set the 404 status explicitly
+#    return render_template('404.html'), 404
 
 if __name__ == "__main__":
     app.run()
