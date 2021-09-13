@@ -17,6 +17,7 @@
                   </div>
               </div>
             {% endblock %}
+
             <form action="" method="post" class="form" role="form">
               <div class="form-group ">
                 <label class="control-label" for="query">Search for our available yummy products :)</label>
@@ -25,6 +26,7 @@
               <input class="btn btn-default" id="submit" name="submit" type="submit" value="Submit">
             </form>
             <br>
+
             {% block images_ %}
               {% if call_surprise == false %}
                 {% if result_list %}

