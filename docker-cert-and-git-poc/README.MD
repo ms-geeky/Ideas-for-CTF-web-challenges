@@ -2,13 +2,13 @@
 
 ### how to run it
 
-first, generate CA files with openssl, generate a server cert for apache and a client cert for your browser with the script generatekeysandcerts.sh. Now, put your git project folder (.git) into the folder git, so it gets copied.
+first, generate CA files with openssl, generate a server cert for apache and a client cert for your browser with the script generatekeysandcerts.sh. Now, put your git project folder (.git) into the folder git (see the "git challenge dir"), so it gets copied.
 
 Then you can build the docker image and run it:
 
-```docker build -t phptest .```
+```docker build -t cert_git_challenge .```
 
-```docker run --rm -it -p 127.0.0.1:443:443 -p 127.0.0.1:80:80 --name phptest phptest```
+```docker run --rm -it -p 127.0.0.1:443:443 -p 127.0.0.1:80:80 --name cert_git_challenge cert_git_challenge```
 
 On port 80, there is only .git accessible.
 

@@ -1,3 +1,13 @@
+# git challenge
+
+the idea is to serve the git repo (which is setup by running git.sh) with the same apache server that is also use by "docker-cert-and-git-poc".
+
+In total, there can several flags be found:
+
+1. the first flag can be found on a branch called "secret"
+2. the second flag can give a hint to an endpoint in query.sh: http://0.0.0.0:80/asdfadsdfafdg.php (TODO: this php script could yield a flag); it is random enough to not be found by brute dictionary attacks
+3. the third flag can be found by running hello.spl as a shakespearelang script! (TODO), right now the spl script only prints "Hello world!", a new line and the character "d"
+
 ## Idea for the git challenge: use Shakespearelang
 
 To spice up the git challenge, Shakespearelang could be used: https://de.wikipedia.org/wiki/Shakespeare_Programming_Language

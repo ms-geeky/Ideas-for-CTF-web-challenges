@@ -6,61 +6,7 @@ git config --global user.name "ms.geeky";
 
 git config --global user.email "ms.geeky@localhost"; 
 
-git clone https://github.com/jofpin/hubpi.git;
-
-cd hubpi;
-
-rm -rf .git;
-
 git init;
-
-git add index.html;
-
-git commit -m "Update index.html";
-
-git add .;
-
-git commit -m "added files";
-
-echo "nothing" > pineres.min.css;
-
-git add pineres.min.css;
-
-git commit -m "added pineres.min.css";
-
-rm pineres.min.css;
-
-git commit "deleted pineres.min.css";
-
-echo "nothing" > i.min.css;
-
-git add i.min.css;
-
-git commit -m "added i.min.css";
-
-rm i.min.css;
-
-git commit -m "deleted i.min.css";
-
-echo "nothing" > styles.css;
-
-git add styles.css;
-
-git commit -m "update styles.css";
-
-rm styles.css;
-
-git commit -m "deleted styles.css"
-
-echo "text-overflow: ellipsis;" > post.css;
-
-git add post.css;
-
-git commit -m "postCSS v1.0.0 :smile:"
-
-rm post.css;
-
-git commit -m "update post.css";
 
 echo "sth" > hello.txt;
 
@@ -111,3 +57,11 @@ git commit -m "added test.php";
 git branch main;
 
 git checkout main;
+
+git add query.sh;
+
+git commit -m "added script to query local webserver";
+
+git add shakespearelang/hello.spl;
+
+git commit -m "added spl script";
