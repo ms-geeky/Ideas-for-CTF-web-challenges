@@ -9,3 +9,5 @@ The first challenge consists of a "sql based cookie injection", using flask as a
 The second challenge resolves around git. [challenge 2](git%20challenge/README.MD)
 
 The third challenge is about authenticating with a client cert with a certain "Subject" field in the cert which the ctf players have to sign with the openly available "CA" private key! [challenge 3](docker-cert-and-git-poc/README.MD)
+
+Copyright © 2022 Swetha Sridevi Nachimuthu
