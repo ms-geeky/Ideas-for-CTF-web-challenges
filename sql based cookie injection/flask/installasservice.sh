@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# TODO run as non root?
+# script to run the flask server as a service
+
+# TODO run as non root
 
 groupadd flask
 useradd -g flask -s /usr/sbin/nologin -d /home/flask flask

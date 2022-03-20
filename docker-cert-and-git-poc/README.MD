@@ -2,7 +2,7 @@
 
 ### how to run it
 
-first, generate CA files with openssl, generate a server cert for apache and a client cert for your browser with the script generatekeysandcerts.sh. Now, put your git project folder (.git) into the folder git (see the "git challenge dir"), so it gets copied.
+first, generate CA files with openssl, generate a server cert for apache and a client cert for your browser with the script generatekeysandcerts.sh. Now, put your git project folder (.git), which you generated with the "git challenge/git.sh" script, into this directory (see the "git challenge dir"), so it gets copied.
 
 Then you can build the docker image and run it:
 
